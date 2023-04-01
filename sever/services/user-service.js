@@ -12,7 +12,7 @@ class UserService {
       throw new Error(`Пользователь с адресом ${email} уже существует.`);
     }
     const hashPassword = await bcrypt.hash(password, 5);
-    const activationLink = nanoid();
+    const activationLink = `${process.env.APP_URL}/api/activate/${nanoid()}`;
 
     const user = await UserModel.create({
       email: email,
