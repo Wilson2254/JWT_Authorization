@@ -1,0 +1,9 @@
+# Dependency directories
+node_modules/
+
+# IDE / Editor
+.idea
+
+# dotenv environment variables file
+.env
+
