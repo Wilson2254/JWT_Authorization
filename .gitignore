@@ -3,6 +3,7 @@ node_modules/
 
 # IDE / Editor
 .idea
+.vscode
 
 # dotenv environment variables file
 .env
