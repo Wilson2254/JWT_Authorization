@@ -5,6 +5,8 @@ import MailService from "./mail-service.js";
 import TokenService from "./token-service.js";
 import UserDto from "../dtos/user-dto.js";
 import ApiError from "../exceptions/api-error.js";
+import tokenService from "./token-service.js";
+import userModel from "../models/user-model.js";
 
 class UserService {
   async registration(email, password) {
@@ -52,6 +54,11 @@ class UserService {
     return await this.setUserAndTokens(user);
   }
 
+  async logout(refreshToken) {
+    const token = await tokenService.removeToken(refreshToken);
+    return token;
+  }
+
   async setUserAndTokens(user) {
     const userDto = new UserDto(user);
     const tokens = TokenService.generateTokens({ ...userDto });
@@ -61,6 +68,24 @@ class UserService {
       ...tokens,
       user: userDto,
     };
+  }
+
+  async refresh(refreshToken) {
+    if (!refreshToken) {
+      throw ApiError.unauthorizedError();
+    }
+    const { userData } = tokenService.validateRefreshToken(refreshToken);
+    const tokenFromDb = tokenService.findToken(refreshToken);
+    if (!userData || !tokenFromDb) {
+      throw ApiError.unauthorizedError();
+    }
+    const user = await userModel.findById(userData.id);
+    return await this.setUserAndTokens(user);
+  }
+
+  async getAllUsers() {
+    const users = await userModel.find();
+    return users;
   }
 }
 
