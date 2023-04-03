@@ -3,13 +3,14 @@
   "include": [
     "env.d.ts",
     "src/**/*",
-    "src/**/*.vue"
+    "src/**/*.vue",
   ],
   "compilerOptions": {
     "baseUrl": "./jwt-client",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "useUnknownInCatchVariables": false
   },
 
   "references": [

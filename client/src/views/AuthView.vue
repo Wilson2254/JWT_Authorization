@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import AuthForm from '../components/AuthForm/AuthForm.vue';
+import AuthForm from '@/components/AuthForm/AuthForm.vue';
 </script>
 
 <style scoped></style>

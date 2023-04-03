@@ -22,7 +22,7 @@ class MailService {
       html: `<div><div><h1>Для активации перейдите по ссылке</h1><div><p><a href="${link}">ССЫЛКА</a></p></div>`,
     });
 
-    console.log(`URL FOR CHECK: ${nodemailer.getTestMessageUrl(info)}`);
+    return nodemailer.getTestMessageUrl(info);
   }
 }
 

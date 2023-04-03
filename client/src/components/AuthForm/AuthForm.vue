@@ -1,10 +1,10 @@
 <template>
-  <v-form v-model="valid" @submit="submitForm">
-    <v-container class="w-33">
+  <v-form v-model="isFormValid" @submit.prevent="submitForm">
+    <v-container class="w-33 w-md-50">
       <v-row class="mb-4">
         <v-text-field
           v-model="email"
-          :rules="emailRules"
+          :rules="formRulesList.email"
           label="Email"
           required
           type="email"
@@ -14,7 +14,7 @@
       <v-row class="mb-4">
         <v-text-field
           v-model="password"
-          :rules="passwordRules"
+          :rules="formRulesList.password"
           label="Password"
           required
           type="password"
@@ -24,7 +24,7 @@
       <v-row class="mb-4">
         <v-text-field
           v-model="passwordConfirm"
-          :rules="passwordConfirmRules"
+          :rules="formRulesList.passwordConfirm"
           label="Repeat Password"
           required
           type="password"
@@ -37,40 +37,45 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import { authStore } from '../../stores/auth-store';
 
-const valid = ref(false);
+const { login, registration, logout } = authStore();
+
+const isFormValid = ref(false);
 
 const email = ref('');
-
 const password = ref('');
-
 const passwordConfirm = ref('');
 
-const emailRules = [
-  (value: string): string | boolean => {
-    return /.+@.+\..+/.test(value) || 'Некорректный email';
-  }
-];
+const formRulesList = {
+  email: [
+    (value: string): string | boolean => {
+      return /.+@.+\..+/.test(value) || 'Некорректный email';
+    }
+  ],
+  password: [
+    (value: string): string | boolean => {
+      return value.length >= 6 || 'Некорректный пароль';
+    }
+  ],
+  passwordConfirm: [
+    (value: string): string | boolean => {
+      return value === password.value || 'Пароли не совпадают';
+    },
+    (value: string): string | boolean => {
+      return value.length >= 6 || 'Некорректный пароль';
+    }
+  ]
+};
 
-const passwordRules = [
-  (value: string): string | boolean => {
-    return value.length >= 6 || 'Некорректный пароль';
-  }
-];
-
-const passwordConfirmRules = [
-  (value: string): string | boolean => {
-    return value === password.value || 'Пароли не совпадают';
-  }
-];
+const isPasswordsMatched = computed(() => {
+  return password.value === passwordConfirm.value;
+});
 
 const submitForm = () => {
-  console.log('TEST');
-  if (valid.value) {
-    console.log({
-      email: email.value
-    });
+  if (isFormValid.value && isPasswordsMatched.value) {
+    registration(email.value, password.value);
   }
 };
 </script>

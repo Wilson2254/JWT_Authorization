@@ -24,12 +24,12 @@ class UserService {
       password: hashPassword,
       activationLink,
     });
-    await MailService.sendActivationMail(
+    const linkForCheckMail = await MailService.sendActivationMail(
       email,
       `${process.env.APP_URL}/api/activate/${activationLink}`
     );
 
-    return await this.setUserAndTokens(user);
+    return await this.setUserAndTokens(user, linkForCheckMail);
   }
 
   async activateLink(activationLink) {
@@ -59,7 +59,7 @@ class UserService {
     return token;
   }
 
-  async setUserAndTokens(user) {
+  async setUserAndTokens(user, emailLink = null) {
     const userDto = new UserDto(user);
     const tokens = TokenService.generateTokens({ ...userDto });
     await TokenService.saveToken(userDto.id, tokens.refreshToken);
@@ -67,6 +67,7 @@ class UserService {
     return {
       ...tokens,
       user: userDto,
+      emailLink,
     };
   }
 
