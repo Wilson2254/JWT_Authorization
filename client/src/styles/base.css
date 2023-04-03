@@ -10,3 +10,7 @@
   position: relative;
   font-weight: normal;
 }
+
+#app{
+  height: 100vh;
+}
