@@ -1,5 +1,7 @@
 <template>
-  <auth-form class="d-flex h-100 align-center" />
+  <div class="d-flex h-100 align-center">
+    <auth-form class="flex-grow-1" />
+  </div>
 </template>
 
 <script setup lang="ts">

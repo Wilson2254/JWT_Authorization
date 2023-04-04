@@ -10,7 +10,8 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "useUnknownInCatchVariables": false
+    "useUnknownInCatchVariables": false,
+    "types": ["vite/client"]
   },
 
   "references": [
