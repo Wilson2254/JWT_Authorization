@@ -11,12 +11,13 @@ import errorMiddleware from "./middlewares/error-middleware.js";
 const APP_PORT = process.env.PORT;
 const app = express();
 
+console.log(typeof process.env.CLIENT_URL);
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: process.env.CLIENT_URL,
   })
 );
 app.use("/api", router);
