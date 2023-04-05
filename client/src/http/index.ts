@@ -1,7 +1,7 @@
 import axios from 'axios';
 import AuthService from '../services/auth-service';
 
-export const API_URL = 'http://localhost:80/api';
+export const API_URL = 'http://localhost:3000/api';
 
 const httpApi = axios.create({
   withCredentials: true,
