@@ -30,6 +30,10 @@ async function init() {
     await router.push({
       name: 'profile'
     });
+  } else {
+    await router.push({
+      name: 'auth'
+    });
   }
   loaderClose();
 }
