@@ -1,5 +1,5 @@
 # JWT_Authorization
 Vue 3, Express, Vuetify, Docker Compose
 
-## Запуск в докере
+## Docker run
 `docker-compose up`
